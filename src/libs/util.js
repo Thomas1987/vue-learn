@@ -32,15 +32,16 @@ const showThisMenuEle = (item, access) => {
 export const getMenuByRouter = (list, access) => {
   let res = []
   forEach(list, item => {
-    if (item.meta && !item.meta.hideInMenu) {
+    if (!item.meta || (item.meta && !item.meta.hideInMenu)) {
       let obj = {
         icon: (item.meta && item.meta.icon) || '',
         name: item.name,
         meta: item.meta
       }
-      if (hasChild(item) && showThisMenuEle(item, access)) {
+      if ((hasChild(item) || (item.meta && item.meta.showAlways)) && showThisMenuEle(item, access)) {
         obj.children = getMenuByRouter(item.children, access)
       }
+      if (item.meta && item.meta.href) obj.href = item.meta.href
       if (showThisMenuEle(item, access)) res.push(obj)
     }
   })
@@ -51,7 +52,7 @@ export const getMenuByRouter = (list, access) => {
  * @param {Array} routeMetched 当前路由metched
  * @returns {Array}
  */
-export const getBreadCrumbList = (routeMetched) => {
+export const getBreadCrumbList = (routeMetched, homeRoute) => {
   let res = routeMetched.filter(item => {
     return item.meta === undefined || !item.meta.hide
   }).map(item => {
@@ -65,10 +66,7 @@ export const getBreadCrumbList = (routeMetched) => {
   res = res.filter(item => {
     return !item.meta.hideInMenu
   })
-  return [{
-    name: 'home',
-    to: '/home'
-  }, ...res]
+  return [Object.assign(homeRoute, { to: homeRoute.path }), ...res]
 }
 
 export const showTitle = (item, vm) => vm.$config.useI18n ? vm.$t(item.name) : ((item.meta && item.meta.title) || item.name)
@@ -121,17 +119,6 @@ export const getNewTagList = (list, newRoute) => {
 }
 
 /**
- * @param {Boolean} status 状态 1 => locked  0 => unlocked
- * @description 这里只是为了演示，实际应该将锁定状态的设置和获取用接口来实现
- */
-export const setLockStatus = (status) => {
-  localStorage.isLocked = status
-}
-export const getLockStatus = () => {
-  return parseInt(localStorage.isLocked)
-}
-
-/**
  * @param {*} access 用户权限数组，如 ['super_admin', 'admin']
  * @param {*} route 路由列表
  */
@@ -141,29 +128,24 @@ const hasAccess = (access, route) => {
 }
 
 /**
+ * 权鉴
  * @param {*} name 即将跳转的路由name
  * @param {*} access 用户权限数组
  * @param {*} routes 路由列表
  * @description 用户是否可跳转到该页
  */
 export const canTurnTo = (name, access, routes) => {
-  const getHasAccessRouteNames = (list) => {
-    let res = []
-    list.forEach(item => {
+  const routePermissionJudge = (list) => {
+    return list.some(item => {
       if (item.children && item.children.length) {
-        res = [].concat(res, getHasAccessRouteNames(item.children))
-      } else {
-        if (item.meta && item.meta.access) {
-          if (hasAccess(access, item)) res.push(item.name)
-        } else {
-          res.push(item.name)
-        }
+        return routePermissionJudge(item.children)
+      } else if (item.name === name) {
+        return hasAccess(access, item)
       }
     })
-    return res
   }
-  const canTurnToNames = getHasAccessRouteNames(routes)
-  return canTurnToNames.indexOf(name) > -1
+
+  return routePermissionJudge(routes)
 }
 
 /**
@@ -260,4 +242,31 @@ export const getTableDataFromArray = (array) => {
     columns,
     tableData
   }
+}
+
+export const findNodeUpper = (ele, tag) => {
+  if (ele.parentNode) {
+    if (ele.parentNode.tagName === tag.toUpperCase()) {
+      return ele.parentNode
+    } else {
+      return findNodeUpper(ele.parentNode, tag)
+    }
+  }
+}
+
+export const findNodeDownward = (ele, tag) => {
+  const tagName = tag.toUpperCase()
+  if (ele.childNodes.length) {
+    let i = -1
+    let len = ele.childNodes.length
+    while (++i < len) {
+      let child = ele.childNodes[i]
+      if (child.tagName === tagName) return child
+      else return findNodeDownward(child, tag)
+    }
+  }
+}
+
+export const showByAccess = (access, canViewAccess) => {
+  return hasOneOf(canViewAccess, access)
 }

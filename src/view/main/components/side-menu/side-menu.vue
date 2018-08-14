@@ -5,19 +5,19 @@
       <template v-for="item in menuList">
         <template v-if="item.children && item.children.length === 1">
           <side-menu-item v-if="showChildren(item)" :key="`menu-${item.name}`" :parent-item="item"></side-menu-item>
-          <menu-item v-else :name="`${item.children[0].name}`" :key="`menu-${item.children[0].name}`"><common-icon :type="item.children[0].icon || ''"/><span>{{ showTitle(item.children[0]) }}</span></menu-item>
+          <menu-item v-else :name="getNameOrHref(item, true)" :key="`menu-${item.children[0].name}`"><common-icon :type="item.children[0].icon || ''"/><span>{{ showTitle(item.children[0]) }}</span></menu-item>
         </template>
         <template v-else>
           <side-menu-item v-if="showChildren(item)" :key="`menu-${item.name}`" :parent-item="item"></side-menu-item>
-          <menu-item v-else :name="`${item.name}`" :key="`menu-${item.name}`"><common-icon :type="item.icon || ''"/><span>{{ showTitle(item) }}</span></menu-item>
+          <menu-item v-else :name="getNameOrHref(item)" :key="`menu-${item.name}`"><common-icon :type="item.icon || ''"/><span>{{ showTitle(item) }}</span></menu-item>
         </template>
       </template>
     </Menu>
     <div class="menu-collapsed" v-show="collapsed" :list="menuList">
       <template v-for="item in menuList">
         <collapsed-menu v-if="item.children && item.children.length > 1" @on-click="handleSelect" hide-title :root-icon-size="rootIconSize" :icon-size="iconSize" :theme="theme" :parent-item="item" :key="`drop-menu-${item.name}`"></collapsed-menu>
-        <Tooltip v-else :content="item.children[0].meta.title" placement="right" :key="`drop-menu-${item.children[0].name}`">
-          <a @click="handleSelect(item.children[0].name)" class="drop-menu-a" :style="{textAlign: 'center'}"><Icon :size="rootIconSize" :color="textColor" :type="item.children[0].icon"/></a>
+        <Tooltip transfer v-else :content="(item.meta && item.meta.title) || (item.children && item.children[0] && item.children[0].meta.title)" placement="right" :key="`drop-menu-${item.name}`">
+          <a @click="handleSelect(getNameOrHref(item, true))" class="drop-menu-a" :style="{textAlign: 'center'}"><common-icon :size="rootIconSize" :color="textColor" :type="item.icon || (item.children && item.children[0].icon)"/></a>
         </Tooltip>
       </template>
     </div>
@@ -26,8 +26,9 @@
 <script>
 import SideMenuItem from './side-menu-item.vue'
 import CollapsedMenu from './collapsed-menu.vue'
-import { getIntersection } from '@/libs/tools'
+import { getUnion } from '@/libs/tools'
 import mixin from './mixin'
+
 export default {
   name: 'SideMenu',
   mixins: [ mixin ],
@@ -78,6 +79,10 @@ export default {
     },
     getOpenedNamesByActiveName (name) {
       return this.$route.matched.map(item => item.name).filter(item => item !== name)
+    },
+    updateOpenName (name) {
+      if (name === 'home') this.openedNames = []
+      else this.openedNames = this.getOpenedNamesByActiveName(name)
     }
   },
   computed: {
@@ -88,7 +93,7 @@ export default {
   watch: {
     activeName (name) {
       if (this.accordion) this.openedNames = this.getOpenedNamesByActiveName(name)
-      else this.openedNames = getIntersection(this.openedNames, this.getOpenedNamesByActiveName(name))
+      else this.openedNames = getUnion(this.openedNames, this.getOpenedNamesByActiveName(name))
     },
     openNames (newNames) {
       this.openedNames = newNames
@@ -100,7 +105,7 @@ export default {
     }
   },
   mounted () {
-    this.openedNames = getIntersection(this.openedNames, this.getOpenedNamesByActiveName(name))
+    this.openedNames = getUnion(this.openedNames, this.getOpenedNamesByActiveName(name))
   }
 }
 </script>

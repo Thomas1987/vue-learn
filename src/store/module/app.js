@@ -4,14 +4,15 @@ export default {
   state: {
     breadCrumbList: [],
     tagNavList: [],
-    homeRoute: getHomeRoute(routers)
+    homeRoute: getHomeRoute(routers),
+    local: ''
   },
   getters: {
     menuList: (state, getters, rootState) => getMenuByRouter(routers, rootState.user.access)
   },
   mutations: {
     setBreadCrumb (state, routeMetched) {
-      state.breadCrumbList = getBreadCrumbList(routeMetched)
+      state.breadCrumbList = getBreadCrumbList(routeMetched, state.homeRoute)
     },
     setTagNavList (state, list) {
       if (list) {
@@ -25,6 +26,9 @@ export default {
         else state.tagNavList.unshift(item)
         setTagNavListInLocalstorage([...state.tagNavList])
       }
+    },
+    setLocal (state, lang) {
+      state.local = lang
     }
   }
 }
