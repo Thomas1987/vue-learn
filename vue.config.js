@@ -15,8 +15,10 @@ fs.writeFileSync(path.join(__dirname, './config/env.js'), `export default '${env
 // 默认：'/'
 // 如果您的应用程序部署在子路径中，则需要在这指定子路径
 // 例如：https://www.foobar.com/my-app/
-// 需要将它改为'/my-app/'
-const BASE_URL = '/iview-admin/'
+// 需要将它改为'/my-app/' 区分开发环境还是发布环境，发布环境需要指定具体的目录
+const BASE_URL = process.env.NODE_ENV === 'production'
+  ? '/idr_crm_web'
+  : '/'
 
 module.exports = {
   // Project deployment base

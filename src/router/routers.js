@@ -44,36 +44,11 @@ export default [
     ]
   },
   {
-    path: '',
-    name: 'doc',
-    meta: {
-      title: '文档',
-      href: 'https://lison16.github.io/iview-admin-doc/#/',
-      icon: 'ios-book'
-    }
-  },
-  {
-    path: '/join',
-    name: 'join',
-    component: Main,
-    children: [
-      {
-        path: 'join_page',
-        name: 'join_page',
-        meta: {
-          icon: '_qq',
-          title: 'QQ群'
-        },
-        component: () => import('@/view/join-page.vue')
-      }
-    ]
-  },
-  {
     path: '/components',
     name: 'components',
     meta: {
       icon: 'logo-buffer',
-      title: '组件'
+      title: '系统管理'
     },
     component: Main,
     children: [
@@ -91,18 +66,9 @@ export default [
         name: 'tables_page',
         meta: {
           icon: 'md-grid',
-          title: '多功能表格'
+          title: '用户列表'
         },
         component: () => import('@/view/components/tables/tables.vue')
-      },
-      {
-        path: 'split_pane_page',
-        name: 'split_pane_page',
-        meta: {
-          icon: 'md-pause',
-          title: '分割窗口'
-        },
-        component: () => import('@/view/components/split-pane/split-pane.vue')
       },
       {
         path: 'markdown_page',
@@ -134,31 +100,50 @@ export default [
     ]
   },
   {
-    path: '/update',
-    name: 'update',
+    path: '/excel',
+    name: 'excel',
     meta: {
-      icon: 'md-cloud-upload',
-      title: '数据上传'
+      icon: 'ios-stats',
+      title: 'EXCEL导入导出'
     },
     component: Main,
     children: [
       {
-        path: 'update_table_page',
-        name: 'update_table_page',
+        path: 'upload-excel',
+        name: 'upload-excel',
         meta: {
-          icon: 'ios-document',
-          title: '上传Csv'
+          icon: 'md-add',
+          title: '导入EXCEL'
         },
-        component: () => import('@/view/update/update-table.vue')
+        component: () => import('@/view/excel/upload-excel.vue')
       },
       {
-        path: 'update_paste_page',
-        name: 'update_paste_page',
+        path: 'export-excel',
+        name: 'export-excel',
         meta: {
-          icon: 'md-clipboard',
-          title: '粘贴表格数据'
+          icon: 'md-download',
+          title: '导出EXCEL'
         },
-        component: () => import('@/view/update/update-paste.vue')
+        component: () => import('@/view/excel/export-excel.vue')
+      }
+    ]
+  },
+  {
+    path: '/tools_methods',
+    name: 'tools_methods',
+    meta: {
+      hide: true
+    },
+    component: Main,
+    children: [
+      {
+        path: 'tools_methods_page',
+        name: 'tools_methods_page',
+        meta: {
+          icon: 'ios-hammer',
+          title: '工具方法'
+        },
+        component: () => import('@/view/tools-methods/tools-methods.vue')
       }
     ]
   },
@@ -230,6 +215,34 @@ export default [
         },
         component: () => import('@/view/multilevel/level-2-3.vue')
       },
+    ]
+  },
+  {
+    path: '/argu',
+    name: 'argu',
+    meta: {
+      hideInMenu: true
+    },
+    component: Main,
+    children: [
+      {
+        path: 'params/:id',
+        name: 'params',
+        meta: {
+          icon: 'md-flower',
+          title: '动态路由'
+        },
+        component: () => import('@/view/argu-page/params.vue')
+      },
+      {
+        path: 'query',
+        name: 'query',
+        meta: {
+          icon: 'md-flower',
+          title: '带参路由'
+        },
+        component: () => import('@/view/argu-page/query.vue')
+      }
     ]
   },
   {

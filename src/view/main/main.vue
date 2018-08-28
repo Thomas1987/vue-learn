@@ -4,8 +4,8 @@
       <side-menu accordion ref="sideMenu" :active-name="$route.name" :collapsed="collapsed" @on-select="turnToPage" :menu-list="menuList">
         <!-- 需要放在菜单上面的内容，如Logo，写在side-menu标签内部，如下 -->
         <div class="logo-con">
-          <img v-show="!collapsed" :src="maxLogo" key="max-logo" />
-          <img v-show="collapsed" :src="minLogo" key="min-logo" />
+          <!-- <img v-show="!collapsed" :src="maxLogo" key="max-logo" />
+          <img v-show="collapsed" :src="minLogo" key="min-logo" /> -->
         </div>
       </side-menu>
     </Sider>
@@ -40,7 +40,7 @@ import User from './components/user'
 import Fullscreen from './components/fullscreen'
 import Language from './components/language'
 import { mapMutations, mapActions } from 'vuex'
-import { getNewTagList, getNextName } from '@/libs/util'
+import { getNewTagList, getNextRoute, routeEqual } from '@/libs/util'
 import minLogo from '@/assets/images/logo-min.jpg'
 import maxLogo from '@/assets/images/logo.jpg'
 import './main.less'
@@ -92,33 +92,46 @@ export default {
     ...mapActions([
       'handleLogin'
     ]),
-    turnToPage (name) {
+    turnToPage (route) {
+      let { name, params, query } = {}
+      if (typeof route === 'string') name = route
+      else {
+        name = route.name
+        params = route.params
+        query = route.query
+      }
       if (name.indexOf('isTurnByHref_') > -1) {
         window.open(name.split('_')[1])
         return
       }
       this.$router.push({
-        name: name
+        name,
+        params,
+        query
       })
     },
     handleCollapsedChange (state) {
       this.collapsed = state
     },
-    handleCloseTag (res, type, name) {
-      const nextName = getNextName(this.tagNavList, name)
-      this.setTagNavList(res)
+    handleCloseTag (res, type, route) {
       let openName = ''
       if (type === 'all') {
         this.turnToPage('home')
         openName = 'home'
-      } else if (this.$route.name === name) {
-        this.$router.push({ name: nextName })
-        openName = nextName
+      } else if (routeEqual(this.$route, route)) {
+        if (type === 'others') {
+          openName = route.name
+        } else {
+          const nextRoute = getNextRoute(this.tagNavList, route)
+          this.$router.push(nextRoute)
+          openName = nextRoute.name
+        }
       }
+      this.setTagNavList(res)
       this.$refs.sideMenu.updateOpenName(openName)
     },
     handleClick (item) {
-      this.turnToPage(item.name)
+      this.turnToPage(item)
     }
   },
   watch: {
@@ -132,31 +145,12 @@ export default {
      * @description 初始化设置面包屑导航和标签导航
      */
     this.setTagNavList()
-    this.addTag(this.$store.state.app.homeRoute)
+    this.addTag({
+      route: this.$store.state.app.homeRoute
+    })
     this.setBreadCrumb(this.$route.matched)
     // 设置初始语言
     this.setLocal(this.$i18n.locale)
-    // 文档提示
-    this.$Notice.info({
-      title: '想快速上手，去看文档吧',
-      duration: 0,
-      render: (h) => {
-        return h('p', {
-          style: {
-            fontSize: '13px'
-          }
-        }, [
-          '点击',
-          h('a', {
-            attrs: {
-              href: 'https://lison16.github.io/iview-admin-doc/#/',
-              target: '_blank'
-            }
-          }, 'iview-admin2.0文档'),
-          '快速查看'
-        ])
-      }
-    })
   }
 }
 </script>
