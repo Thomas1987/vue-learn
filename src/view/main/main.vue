@@ -4,8 +4,8 @@
       <side-menu accordion ref="sideMenu" :active-name="$route.name" :collapsed="collapsed" @on-select="turnToPage" :menu-list="menuList">
         <!-- 需要放在菜单上面的内容，如Logo，写在side-menu标签内部，如下 -->
         <div class="logo-con">
-          <!-- <img v-show="!collapsed" :src="maxLogo" key="max-logo" />
-          <img v-show="collapsed" :src="minLogo" key="min-logo" /> -->
+          <img v-show="!collapsed" :src="maxLogo" key="max-logo" />
+          <img v-show="collapsed" :src="minLogo" key="min-logo" />
         </div>
       </side-menu>
     </Sider>
@@ -151,6 +151,27 @@ export default {
     this.setBreadCrumb(this.$route.matched)
     // 设置初始语言
     this.setLocal(this.$i18n.locale)
+    // 文档提示
+    this.$Notice.info({
+      title: '想快速上手，去看文档吧',
+      duration: 0,
+      render: (h) => {
+        return h('p', {
+          style: {
+            fontSize: '13px'
+          }
+        }, [
+          '点击',
+          h('a', {
+            attrs: {
+              href: 'https://lison16.github.io/iview-admin-doc/#/',
+              target: '_blank'
+            }
+          }, 'iview-admin2.0文档'),
+          '快速查看'
+        ])
+      }
+    })
   }
 }
 </script>
