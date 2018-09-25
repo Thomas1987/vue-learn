@@ -14,7 +14,7 @@ const resolve = dir => {
 const BASE_URL = process.env.NODE_ENV === 'production'
   ? '/iview-admin/'
   : '/'
-
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 module.exports = {
   // Project deployment base
   // By default we assume your app will be deployed at the root of a domain,
@@ -31,6 +31,10 @@ module.exports = {
       .set('@', resolve('src')) // key,value自行定义，比如.set('@@', resolve('src/components'))
       .set('_c', resolve('src/components'))
       .set('_conf', resolve('config'))
+    if (process.env.NODE_ENV === 'production') {
+      config.plugin('webpack-bundel-analyzer')
+        .use(require('webpack-bundle-analyzer').BundleAnalyzerPlugin)
+    }
   },
   // 打包时不生成.map文件
   productionSourceMap: false
