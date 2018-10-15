@@ -2,7 +2,9 @@
   <div>
       <Card>
           <div  class="search-con search-con-top">
-              <Button type="primary" @click="userModal = true">显示对话框</Button>
+              <Button type="primary" @click="userModal = true">添加</Button>
+              <Button type="primary" @click="userModal = true">编辑</Button>
+              <Button type="primary" @click="userModal = true">删除</Button>
           </div>
           <Table :data="tableData1" :columns="tableColumns1" stripe></Table>
           <div style="margin: 10px;overflow: hidden">
@@ -12,11 +14,25 @@
           </div>
       </Card>
 
-      <Modal v-model="userModal" title="添加用戶" draggable scrollable @on-ok="ok" :loading="loading">
-        <Form ref="form" :model="form" :rules="rule">
-          <Form-item prop="name">
-            <i-Input v-model="form.name"></i-Input>
-          </Form-item>
+      <Modal v-model="userModal" title="添加用戶" :mask-closable="false" class-name="vertical-center-modal" scrollable  @on-ok="ok" :loading="loading">
+        <Form ref="form" :model="form" :rules="rule" inline>
+          <Row>
+            <i-Col span="6">
+              <Form-item prop="name" label="姓名：">
+                <i-Input v-model="form.name"></i-Input>
+              </Form-item>
+            </i-Col>
+            <i-Col span="6">
+
+            </i-Col>
+            <i-Col span="6">
+
+            </i-Col>
+            <i-Col span="6">
+
+            </i-Col>
+          </Row>
+
         </Form>
       </Modal>
   </div>
