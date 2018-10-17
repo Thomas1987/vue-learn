@@ -298,8 +298,8 @@ module.exports = {
     'yield-star-spacing': [2, 'both'],
     //要求或禁止 “Yoda” 条件
     'yoda': [2, 'never'],
-    //要求使用 const 声明那些声明后不再被修改的变量
-    'prefer-const': 2,
+    //要求使用 const 声明那些声明后不再被修改的变量 暂时不启用
+    'prefer-const':0,
     //禁用 debugger
     'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
     //强制在大括号中使用一致的空格
