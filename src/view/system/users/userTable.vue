@@ -6,7 +6,7 @@
           <Option v-for="item in columns" v-if="item.key !== 'handle'" :value="item.key" :key="`search-col-${item.key}`">{{ item.title }}</Option>
         </Select> -->
         <!-- <Input v-model="searchValue" clearable placeholder="输入关键字搜索" class="search-input" @on-change="handleClear"> -->
-        <!-- <Button class="search-btn" type="primary" @click="handleSearch"><Icon type="search"/>&nbsp;&nbsp;搜索</Button> -->
+        <Button class="search-btn" type="primary" @click="handleSearch"><Icon type="search"/>&nbsp;&nbsp;搜索</Button>
       </div>
       <Table :data="tableData1" :columns="tableColumns1" stripe/>
       <div style="margin: 10px;overflow: hidden">

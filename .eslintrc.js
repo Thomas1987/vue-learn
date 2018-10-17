@@ -94,7 +94,7 @@ module.exports = {
     'no-array-constructor': 2,
     //禁止使用arguments.caller和arguments.callee
     'no-caller': 2,
-    //禁用 console
+    //禁用 console = error
     'no-console': 'off',
     //禁止覆盖class命名，也就是说变量名不要和class名重名
     'no-class-assign': 2,
