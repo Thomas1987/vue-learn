@@ -9,7 +9,9 @@ module.exports = {
     node: true,
     es6: true,
   },
-  extends: ['plugin:vue/recommended', 'eslint:recommended'],
+  //https://cnpmjs.org/package/eslint-plugin-vue 引入规范
+  //,'plugin:vue/recommended'
+  extends: ['plugin:vue/essential', 'eslint:recommended'],
 
   // add your custom rules here
   rules: {
@@ -21,7 +23,7 @@ module.exports = {
       }
     }],
     //强制vue组件名称采用PascalCase命名
-    "vue/name-property-casing": ["error", "PascalCase"],
+    // "vue/name-property-casing": ["error", "PascalCase"],
     //强制 getter 和 setter 在对象中成对出现
     'accessor-pairs': 2,
     //强制箭头函数的箭头前后使用一致的空格
@@ -35,9 +37,9 @@ module.exports = {
     'brace-style': [2, '1tbs', {
       'allowSingleLine': true
     }],
-    //强制使用骆驼拼写法命名约定
+    //强制使用骆驼拼写法命名约定never/always
     'camelcase': [0, {
-      'properties': 'always'
+      'properties': 'never'
     }],
     //在定义对象或数组时，最后一项不能加逗号
     'comma-dangle': [2, 'never'],

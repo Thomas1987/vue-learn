@@ -36,7 +36,7 @@
 import excel from '@/libs/excel'
 export default {
   name: 'upload-excel',
-  data () {
+  data() {
     return {
       uploadLoading: false,
       progressPercent: 0,
@@ -49,21 +49,21 @@ export default {
     }
   },
   methods: {
-    initUpload () {
+    initUpload() {
       this.file = null
       this.showProgress = false
       this.loadingProgress = 0
       this.tableData = []
       this.tableTitle = []
     },
-    handleUploadFile () {
+    handleUploadFile() {
       this.initUpload()
     },
-    handleRemove () {
+    handleRemove() {
       this.initUpload()
       this.$Message.info('上传的文件已删除！')
     },
-    handleBeforeUpload (file) {
+    handleBeforeUpload(file) {
       const fileExt = file.name.split('.').pop().toLocaleLowerCase()
       if (fileExt === 'xlsx' || fileExt === 'xls') {
         this.readFile(file)
@@ -77,7 +77,7 @@ export default {
       return false
     },
     // 读取文件
-    readFile (file) {
+    readFile(file) {
       const reader = new FileReader()
       reader.readAsArrayBuffer(file)
       reader.onloadstart = e => {
@@ -104,10 +104,10 @@ export default {
       }
     }
   },
-  created () {
+  created() {
 
   },
-  mounted () {
+  mounted() {
 
   }
 }

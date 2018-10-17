@@ -33,7 +33,7 @@
 <script>
 export default {
   name: 'directive_page',
-  data () {
+  data() {
     return {
       modalVisible: false,
       options: {
@@ -49,7 +49,7 @@ export default {
     }
   },
   methods: {
-    showModal () {
+    showModal() {
       this.modalVisible = true
     }
   }
