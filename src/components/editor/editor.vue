@@ -41,16 +41,16 @@ export default {
     }
   },
   computed: {
-    editorId () {
+    editorId() {
       return `editor${this._uid}`
     }
   },
   methods: {
-    setHtml (val) {
+    setHtml(val) {
       this.editor.txt.html(val)
     }
   },
-  mounted () {
+  mounted() {
     this.editor = new Editor(`#${this.editorId}`)
     this.editor.customConfig.onchange = (html) => {
       let text = this.editor.txt.text()
