@@ -1,47 +1,44 @@
 <template>
   <div>
-      <Card>
-          <div  class="search-con search-con-top">
-              <Button type="primary" @click="userModal = true">添加</Button>
-              <Button type="primary" @click="userModal = true">编辑</Button>
-              <Button type="primary" @click="userModal = true">删除</Button>
-          </div>
-          <Table :data="tableData1" :columns="tableColumns1" stripe></Table>
-          <div style="margin: 10px;overflow: hidden">
-              <div style="float: right;">
-                  <Page :total="100" :current="1" @on-change="changePage"></Page>
-              </div>
-          </div>
-      </Card>
-
-      <Modal v-model="userModal" title="添加用戶" :mask-closable="false" class-name="vertical-center-modal" scrollable  @on-ok="ok" :loading="loading">
-        <Form ref="form" :model="form" :rules="rule" inline>
-          <Row>
-            <i-Col span="6">
-              <Form-item prop="name" label="姓名：">
-                <i-Input v-model="form.name"></i-Input>
-              </Form-item>
-            </i-Col>
-            <i-Col span="6">
-
-            </i-Col>
-            <i-Col span="6">
-
-            </i-Col>
-            <i-Col span="6">
-
-            </i-Col>
-          </Row>
-
-        </Form>
-      </Modal>
+    <Card>
+      <div class="search-con search-con-top">
+        <Select v-model="searchKey" class="search-col">
+          <Option v-for="item in columns" v-if="item.key !== 'handle'" :value="item.key" :key="`search-col-${item.key}`">{{ item.title }}</Option>
+        </Select>
+        <Input v-model="searchValue" clearable placeholder="输入关键字搜索" class="search-input" @on-change="handleClear">
+        <Button class="search-btn" type="primary" @click="handleSearch"><Icon type="search"/>&nbsp;&nbsp;搜索</Button>
+      </div>
+      <Table :data="tableData1" :columns="tableColumns1" stripe/>
+      <div style="margin: 10px;overflow: hidden">
+        <div style="float: right;">
+          <Page :total="100" :current="1" @on-change="changePage"/>
+        </div>
+      </div>
+    </Card>
+    <Modal v-model="userModal" :mask-closable="false" :loading="loading" width="900" title="添加用戶" class-name="vertical-center-modal" scrollable @on-ok="ok">
+      <Form ref="form" :model="form" :rules="rule" label-width="100">
+        <Row>
+          <i-Col span="12">
+            <Form-item prop="name" label="姓名：">
+              <i-Input v-model="form.name"/>
+            </Form-item>
+          </i-Col>
+          <i-Col span="12">
+            <Form-item prop="name" label="姓名：">
+              <i-Input v-model="form.name"/>
+            </Form-item>
+          </i-Col>
+        </Row>
+      </Form>
+    </Modal>
   </div>
 </template>
 <script>
 import './userTable.less'
 export default {
-  data () {
+  data() {
     return {
+      UserName: false,
       userModal: false,
       loading: true,
       form: {
@@ -194,8 +191,8 @@ export default {
     }
   },
   methods: {
-    mockTableData1 () {
-      let data = []
+    mockTableData1() {
+      const data = []
       for (let i = 0; i < 10; i++) {
         data.push({
           name: 'Business' + Math.floor(Math.random() * 100 + 1),
@@ -221,7 +218,7 @@ export default {
       }
       return data
     },
-    formatDate (date) {
+    formatDate(date) {
       const y = date.getFullYear()
       let m = date.getMonth() + 1
       m = m < 10 ? '0' + m : m
@@ -229,17 +226,17 @@ export default {
       d = d < 10 ? '0' + d : d
       return y + '-' + m + '-' + d
     },
-    changePage () {
+    changePage() {
       // The simulated data is changed directly here, and the actual usage scenario should fetch the data from the server
       this.tableData1 = this.mockTableData1()
     },
-    changeLoading () {
+    changeLoading() {
       this.loading = false
       this.$nextTick(() => {
         this.loading = true
       })
     },
-    ok () {
+    ok() {
       this.$refs['form'].validate(valid => {
         if (!valid) {
           return this.changeLoading()
