@@ -4,8 +4,8 @@
       <side-menu accordion ref="sideMenu" :active-name="$route.name" :collapsed="collapsed" @on-select="turnToPage" :menu-list="menuList">
         <!-- 需要放在菜单上面的内容，如Logo，写在side-menu标签内部，如下 -->
         <div class="logo-con">
-          <img v-show="!collapsed" :src="maxLogo" key="max-logo" />
-          <img v-show="collapsed" :src="minLogo" key="min-logo" />
+          <!-- <img v-show="!collapsed" :src="maxLogo" key="max-logo" />
+          <img v-show="collapsed" :src="minLogo" key="min-logo" /> -->
         </div>
       </side-menu>
     </Sider>
@@ -57,7 +57,7 @@ export default {
     ErrorStore,
     User
   },
-  data () {
+  data() {
     return {
       collapsed: false,
       minLogo,
@@ -69,25 +69,25 @@ export default {
     ...mapGetters([
       'errorCount'
     ]),
-    tagNavList () {
+    tagNavList() {
       return this.$store.state.app.tagNavList
     },
-    tagRouter () {
+    tagRouter() {
       return this.$store.state.app.tagRouter
     },
-    userAvator () {
+    userAvator() {
       return this.$store.state.user.avatorImgPath
     },
-    cacheList () {
+    cacheList() {
       return this.tagNavList.length ? this.tagNavList.filter(item => !(item.meta && item.meta.notCache)).map(item => item.name) : []
     },
-    menuList () {
+    menuList() {
       return this.$store.getters.menuList
     },
-    local () {
+    local() {
       return this.$store.state.app.local
     },
-    hasReadErrorPage () {
+    hasReadErrorPage() {
       return this.$store.state.app.hasReadErrorPage
     }
   },
@@ -101,7 +101,7 @@ export default {
     ...mapActions([
       'handleLogin'
     ]),
-    turnToPage (route) {
+    turnToPage(route) {
       let { name, params, query } = {}
       if (typeof route === 'string') name = route
       else {
@@ -119,27 +119,27 @@ export default {
         query
       })
     },
-    handleCollapsedChange (state) {
+    handleCollapsedChange(state) {
       this.collapsed = state
     },
-    handleCloseTag (res, type, route) {
+    handleCloseTag(res, type, route) {
+      debugger
       if (type === 'all') {
         this.turnToPage('home')
       } else if (routeEqual(this.$route, route)) {
-        if (type === 'others') {
-        } else {
+        if (type !== 'others') {
           const nextRoute = getNextRoute(this.tagNavList, route)
           this.$router.push(nextRoute)
         }
       }
       this.setTagNavList(res)
     },
-    handleClick (item) {
+    handleClick(item) {
       this.turnToPage(item)
     }
   },
   watch: {
-    '$route' (newRoute) {
+    '$route'(newRoute) {
       const { name, query, params, meta } = newRoute
       this.addTag({
         route: { name, query, params, meta },
@@ -150,7 +150,7 @@ export default {
       this.$refs.sideMenu.updateOpenName(newRoute.name)
     }
   },
-  mounted () {
+  mounted() {
     /**
      * @description 初始化设置面包屑导航和标签导航
      */
