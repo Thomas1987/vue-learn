@@ -15,9 +15,12 @@ export default {
   update_paste_page: '粘貼表格數據',
   multilevel: '多级菜单',
   directive_page: '指令',
-  level_1: 'level-1',
-  level_2: 'level-2',
-  level_2_1: 'level-2-1',
+  level_1: 'Level-1',
+  level_2: 'Level-2',
+  level_2_1: 'Level-2-1',
+  level_2_3: 'Level-2-3',
+  level_2_2: 'Level-2-2',
+  level_2_2_1: 'Level-2-2-1',
   excel: 'Excel',
   'upload-excel': '上傳excel',
   'export-excel': '導出excel',
@@ -29,5 +32,6 @@ export default {
   buttonText: '顯示模態框',
   'i18n-tip': '注：僅此頁做了多語言，其他頁面沒有在多語言包中添加語言內容',
   error_store_page: '錯誤收集',
-  error_logger_page: '錯誤日誌'
+  error_logger_page: '錯誤日誌',
+  user_table: '用户管理'
 }
