@@ -1,102 +1,174 @@
 <template>
-    <Table border :columns="columns7" :data="data6"></Table>
+    <div>
+      <Card>
+        <div class="search-con search-con-top">
+          <Select v-model="searchKey" class="search-col">
+            <Option v-for="item in tableColumns" v-if="item.key !== 'handle' && item.key !=='checked'" :value="item.key" :key="`search-col-${item.key}`">{{ item.title }}</Option>
+          </Select>
+          <Input @on-change="handleClear" clearable placeholder="输入关键字搜索" class="search-input" v-model="searchValue"/>
+          <Button @click="handleSearch" class="search-btn" type="primary"><Icon type="search"/>&nbsp;&nbsp;搜索</Button>
+        </div>
+        <Table :data="tableData" :columns="tableColumns" stripe></Table>
+        <div style="margin: 10px;overflow: hidden">
+            <div style="float: right;">
+                <Page :total="100" :current="1" @on-change="changePage"></Page>
+            </div>
+        </div>
+      </Card>
+
+    </div>
 </template>
 <script>
+import './userTable.less'
 export default {
   data() {
     return {
-      columns7: [
+      tableData: this.mockTableData1(),
+      tableColumns: [
+        {
+          key: 'checked',
+          type: 'selection',
+          width: 60,
+          align: 'center'
+        },
         {
           title: '姓名',
-          key: 'name',
+          key: 'name'
+        },
+        {
+          title: '状态',
+          key: 'status',
           render: (h, params) => {
-            return h('div', [
-              h('Icon', {
-                props: {
-                  type: 'person'
-                }
-              }),
-              h('strong', params.row.name)
+            const row = params.row
+            const color = row.status === 1 ? 'primary' : row.status === 2 ? 'success' : 'error'
+            const text = row.status === 1 ? 'Working' : row.status === 2 ? 'Success' : 'Fail'
+
+            return h('Tag', {
+              props: {
+                type: 'dot',
+                color: color
+              }
+            }, text)
+          }
+        },
+        {
+          title: 'Portrayal',
+          key: 'portrayal',
+          render: (h, params) => {
+            return h('Poptip', {
+              props: {
+                trigger: 'hover',
+                title: params.row.portrayal.length + 'portrayals',
+                placement: 'bottom'
+              }
+            }, [
+              h('Tag', params.row.portrayal.length),
+              h('div', {
+                slot: 'content'
+              }, [
+                h('ul', this.tableData[params.index].portrayal.map(item => {
+                  return h('li', {
+                    style: {
+                      textAlign: 'center',
+                      padding: '4px'
+                    }
+                  }, item)
+                }))
+              ])
             ])
           }
         },
         {
-          title: '性别',
-          key: 'age'
-        },
-        {
-          title: '地址',
-          key: 'address'
-        },
-        {
-          title: '操作',
-          key: 'action',
-          width: 150,
-          align: 'center',
+          title: 'People',
+          key: 'people',
           render: (h, params) => {
-            return h('div', [
-              h('Button', {
-                props: {
-                  type: 'primary',
-                  size: 'small'
-                },
-                style: {
-                  marginRight: '5px'
-                },
-                on: {
-                  click: () => {
-                    this.show(params.index)
-                  }
-                }
-              }, 'View'),
-              h('Button', {
-                props: {
-                  type: 'error',
-                  size: 'small'
-                },
-                on: {
-                  click: () => {
-                    this.remove(params.index)
-                  }
-                }
-              }, 'Delete')
+            return h('Poptip', {
+              props: {
+                trigger: 'hover',
+                title: params.row.people.length + 'customers',
+                placement: 'bottom'
+              }
+            }, [
+              h('Tag', params.row.people.length),
+              h('div', {
+                slot: 'content'
+              }, [
+                h('ul', this.tableData[params.index].people.map(item => {
+                  return h('li', {
+                    style: {
+                      textAlign: 'center',
+                      padding: '4px'
+                    }
+                  }, item.n + '：' + item.c + 'People')
+                }))
+              ])
             ])
+          }
+        },
+        {
+          title: 'Sampling Time',
+          key: 'time',
+          render: (h, params) => {
+            return h('div', 'Almost' + params.row.time + 'days')
+          }
+        },
+        {
+          title: 'Updated Time',
+          key: 'update',
+          render: (h, params) => {
+            return h('div', this.formatDate(this.tableData[params.index].update))
           }
         }
       ],
-      data6: [
-        {
-          name: 'John Brown',
-          age: 18,
-          address: 'New York No. 1 Lake Park'
-        },
-        {
-          name: 'Jim Green',
-          age: 24,
-          address: 'London No. 1 Lake Park'
-        },
-        {
-          name: 'Joe Black',
-          age: 30,
-          address: 'Sydney No. 1 Lake Park'
-        },
-        {
-          name: 'Jon Snow',
-          age: 26,
-          address: 'Ottawa No. 2 Lake Park'
-        }
-      ]
+      searchKey: '',
+      searchValue: ''
     }
   },
   methods: {
-    show(index) {
-      this.$Modal.info({
-        title: 'User Info',
-        content: `Name：${this.data6[index].name}<br>Age：${this.data6[index].age}<br>Address：${this.data6[index].address}`
-      })
+    mockTableData1() {
+      let data = []
+      for (let i = 0; i < 10; i++) {
+        data.push({
+          name: 'Business' + Math.floor(Math.random() * 100 + 1),
+          status: Math.floor(Math.random() * 3 + 1),
+          portrayal: ['City', 'People', 'Cost', 'Life', 'Entertainment'],
+          people: [
+            {
+              n: 'People' + Math.floor(Math.random() * 100 + 1),
+              c: Math.floor(Math.random() * 1000000 + 100000)
+            },
+            {
+              n: 'People' + Math.floor(Math.random() * 100 + 1),
+              c: Math.floor(Math.random() * 1000000 + 100000)
+            },
+            {
+              n: 'People' + Math.floor(Math.random() * 100 + 1),
+              c: Math.floor(Math.random() * 1000000 + 100000)
+            }
+          ],
+          time: Math.floor(Math.random() * 7 + 1),
+          update: new Date()
+        })
+      }
+      return data
     },
-    remove(index) {
-      this.data6.splice(index, 1)
+    formatDate(date) {
+      const y = date.getFullYear()
+      let m = date.getMonth() + 1
+      m = m < 10 ? '0' + m : m
+      let d = date.getDate()
+      d = d < 10 ? ('0' + d) : d
+      return y + '-' + m + '-' + d
+    },
+    changePage() {
+      // The simulated data is changed directly here, and the actual usage scenario should fetch the data from the server
+      this.tableData = this.mockTableData1()
+    },
+    handleClear(e) {
+      if (e.target.value === '') { this.tableData = this.tableData }
+    },
+    handleSearch() {
+      this.tableData = this.tableData.filter(item => item[this.searchKey].indexOf(this.searchValue) > -1)
     }
   }
 }
