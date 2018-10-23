@@ -70,7 +70,7 @@ export default [
           icon: 'md-grid',
           title: '用户管理'
         },
-        component: () => import('@/view/system/users/userTable.vue')
+        component: () => import('@/view/system/users/user-Table.vue')
       },
       {
         path: 'drag_list_page',

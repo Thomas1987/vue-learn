@@ -21,6 +21,7 @@
 <script>
 import './userTable.less'
 export default {
+  // 数据
   data() {
     return {
       tableData: this.mockTableData1(),
@@ -124,7 +125,9 @@ export default {
       searchValue: ''
     }
   },
+  // 方法
   methods: {
+    // mock表格数据
     mockTableData1() {
       let data = []
       for (let i = 0; i < 10; i++) {
@@ -152,6 +155,7 @@ export default {
       }
       return data
     },
+    // 日期格式化
     formatDate(date) {
       const y = date.getFullYear()
       let m = date.getMonth() + 1
@@ -160,16 +164,25 @@ export default {
       d = d < 10 ? ('0' + d) : d
       return y + '-' + m + '-' + d
     },
+    // 分页方法，真实环境需要调用API
     changePage() {
       // The simulated data is changed directly here, and the actual usage scenario should fetch the data from the server
       this.tableData = this.mockTableData1()
     },
+    // 情况后触发事件
     handleClear(e) {
       if (e.target.value === '') { this.tableData = this.tableData }
     },
+    // 搜索按钮绑定事件
     handleSearch() {
       this.tableData = this.tableData.filter(item => item[this.searchKey].indexOf(this.searchValue) > -1)
     }
+  },
+  // 编译好的HTML 挂载到页面完成后执行的事件钩子，
+  // 此钩子函数中一般会做一些ajax请求获取数据进行数据初始化
+  // mounted在整个实例中只执行一次
+  mounted() {
+
   }
 }
 </script>

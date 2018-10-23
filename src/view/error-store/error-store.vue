@@ -24,10 +24,10 @@ import { errorReq } from '@/api/data'
 export default {
   name: 'error_store_page',
   methods: {
-    click () {
-      console.log(admin)
+    click() {
+      console.log('admin')
     },
-    ajaxClick () {
+    ajaxClick() {
       errorReq()
     }
   }

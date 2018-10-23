@@ -123,7 +123,6 @@ export default {
       this.collapsed = state
     },
     handleCloseTag(res, type, route) {
-      debugger
       if (type === 'all') {
         this.turnToPage('home')
       } else if (routeEqual(this.$route, route)) {
