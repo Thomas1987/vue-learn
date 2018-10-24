@@ -3,14 +3,14 @@
     <split-pane v-model="offset" @on-moving="handleMoving">
       <div slot="left" class="pane left-pane">
         <split-pane v-model="offsetVertical" mode="vertical" @on-moving="handleMoving">
-          <div slot="top" class="pane top-pane"></div>
-          <div slot="bottom" class="pane bottom-pane"></div>
+          <div slot="top" class="pane top-pane"/>
+          <div slot="bottom" class="pane bottom-pane"/>
           <div slot="trigger" class="custom-trigger">
-            <icons class="trigger-icon" :size="22" type="resize-vertical" color="#fff"/>
+            <icons :size="22" class="trigger-icon" type="resize-vertical" color="#fff"/>
           </div>
         </split-pane>
       </div>
-      <div slot="right" class="pane right-pane"></div>
+      <div slot="right" class="pane right-pane"/>
     </split-pane>
   </div>
 </template>

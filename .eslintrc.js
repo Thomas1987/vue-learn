@@ -11,7 +11,7 @@ module.exports = {
   },
   //https://cnpmjs.org/package/eslint-plugin-vue 引入规范
   //,'plugin:vue/recommended'
-  extends: ['plugin:vue/essential', 'eslint:recommended'],
+  extends: ['plugin:vue/recommended', 'eslint:recommended'],
 
   // add your custom rules here
   rules: {
@@ -24,6 +24,7 @@ module.exports = {
     }],
     //强制vue组件名称采用PascalCase命名
     // "vue/name-property-casing": ["error", "PascalCase"],
+    "vue/name-property-casing": 0,
     //强制 getter 和 setter 在对象中成对出现
     'accessor-pairs': 2,
     //强制箭头函数的箭头前后使用一致的空格
@@ -31,9 +32,9 @@ module.exports = {
       'before': true,
       'after': true
     }],
-    //禁止或强制在代码块中开括号前和闭括号后有空格 
+    //禁止或强制在代码块中开括号前和闭括号后有空格
     'block-spacing': [2, 'always'],
-    //强制在代码块中使用一致的大括号风格 
+    //强制在代码块中使用一致的大括号风格
     'brace-style': [2, '1tbs', {
       'allowSingleLine': true
     }],

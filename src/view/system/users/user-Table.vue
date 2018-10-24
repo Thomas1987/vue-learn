@@ -21,7 +21,6 @@
         </div>
       </div>
     </Card>
-
   </div>
 </template>
 <script>
