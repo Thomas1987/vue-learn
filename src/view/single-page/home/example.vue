@@ -7,17 +7,17 @@ import echarts from 'echarts'
 import { on, off } from '@/libs/tools'
 export default {
   name: 'serviceRequests',
-  data () {
+  data() {
     return {
       dom: null
     }
   },
   methods: {
-    resize () {
+    resize() {
       this.dom.resize()
     }
   },
-  mounted () {
+  mounted() {
     const option = {
       tooltip: {
         trigger: 'axis',
@@ -52,7 +52,7 @@ export default {
           name: '运营商/网络服务',
           type: 'line',
           stack: '总量',
-          areaStyle: {normal: {
+          areaStyle: { normal: {
             color: '#2d8cf0'
           }},
           data: [120, 132, 101, 134, 90, 230, 210]
@@ -61,7 +61,7 @@ export default {
           name: '银行/证券',
           type: 'line',
           stack: '总量',
-          areaStyle: {normal: {
+          areaStyle: { normal: {
             color: '#10A6FF'
           }},
           data: [257, 358, 278, 234, 290, 330, 310]
@@ -70,7 +70,7 @@ export default {
           name: '游戏/视频',
           type: 'line',
           stack: '总量',
-          areaStyle: {normal: {
+          areaStyle: { normal: {
             color: '#0C17A6'
           }},
           data: [379, 268, 354, 269, 310, 478, 358]
@@ -79,7 +79,7 @@ export default {
           name: '餐饮/外卖',
           type: 'line',
           stack: '总量',
-          areaStyle: {normal: {
+          areaStyle: { normal: {
             color: '#4608A6'
           }},
           data: [320, 332, 301, 334, 390, 330, 320]
@@ -94,7 +94,7 @@ export default {
               position: 'top'
             }
           },
-          areaStyle: {normal: {
+          areaStyle: { normal: {
             color: '#398DBF'
           }},
           data: [820, 645, 546, 745, 872, 624, 258]
@@ -107,7 +107,7 @@ export default {
       on(window, 'resize', this.resize)
     })
   },
-  beforeDestroy () {
+  beforeDestroy() {
     off(window, 'resize', this.resize)
   }
 }

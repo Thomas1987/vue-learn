@@ -1,28 +1,28 @@
 <template>
-    <div>
-      <Card>
-        <div class="search-con search-con-top">
-          <Select v-model="searchKey" class="search-col">
-            <Option v-for="item in tableColumns" v-if="item.key !== 'handle' && item.key !=='checked'" :value="item.key" :key="`search-col-${item.key}`">{{ item.title }}</Option>
-          </Select>
-          <Input @on-change="handleClear" clearable placeholder="输入关键字搜索" class="search-input" v-model="searchValue"/>
-          <ButtonGroup class="search-btn" >
-            <Button @click="handleSearch">搜索</Button>
-            <Button><Icon type="md-add" />新增</Button>
-            <Button>编辑</Button>
-            <Button>导出excel</Button>
-            <Button>删除</Button>
-          </ButtonGroup>
+  <div>
+    <Card>
+      <div class="search-con search-con-top">
+        <Select v-model="searchKey" class="search-col">
+          <Option v-for="item in tableColumns" v-if="item.key !== 'handle' && item.key !=='checked'" :value="item.key" :key="`search-col-${item.key}`">{{ item.title }}</Option>
+        </Select>
+        <Input v-model="searchValue" clearable placeholder="输入关键字搜索" class="search-input" @on-change="handleClear">
+        <ButtonGroup class="search-btn" >
+          <Button @click="handleSearch">搜索</Button>
+          <Button><Icon type="md-add" />新增</Button>
+          <Button>编辑</Button>
+          <Button>导出excel</Button>
+          <Button>删除</Button>
+        </ButtonGroup>
+      </div>
+      <Table :data="tableData" :columns="tableColumns" stripe/>
+      <div style="margin: 10px;overflow: hidden">
+        <div style="float: right;">
+          <Page :total="100" :current="1" @on-change="changePage"/>
         </div>
-        <Table :data="tableData" :columns="tableColumns" stripe></Table>
-        <div style="margin: 10px;overflow: hidden">
-            <div style="float: right;">
-                <Page :total="100" :current="1" @on-change="changePage"></Page>
-            </div>
-        </div>
-      </Card>
+      </div>
+    </Card>
 
-    </div>
+  </div>
 </template>
 <script>
 import './userTable.less'
@@ -131,6 +131,12 @@ export default {
       searchValue: ''
     }
   },
+  // 编译好的HTML 挂载到页面完成后执行的事件钩子，
+  // 此钩子函数中一般会做一些ajax请求获取数据进行数据初始化
+  // mounted在整个实例中只执行一次
+  mounted() {
+    this.tableData = this.mockTableData1()
+  },
   // 方法
   methods: {
     // mock表格数据
@@ -183,12 +189,6 @@ export default {
     handleSearch() {
       this.tableData = this.tableData.filter(item => item[this.searchKey].indexOf(this.searchValue) > -1)
     }
-  },
-  // 编译好的HTML 挂载到页面完成后执行的事件钩子，
-  // 此钩子函数中一般会做一些ajax请求获取数据进行数据初始化
-  // mounted在整个实例中只执行一次
-  mounted() {
-    this.tableData = this.mockTableData1()
   }
 }
 </script>
