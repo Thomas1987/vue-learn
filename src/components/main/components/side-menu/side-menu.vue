@@ -81,8 +81,6 @@ export default {
       return this.$route.matched.map(item => item.name).filter(item => item !== name)
     },
     updateOpenName(name) {
-      // if (name === 'home') this.openedNames = []
-      // else this.openedNames = this.getOpenedNamesByActiveName(name)
       if (name === this.$config.homeName) this.openedNames = []
       else this.openedNames = this.getOpenedNamesByActiveName(name)
     }

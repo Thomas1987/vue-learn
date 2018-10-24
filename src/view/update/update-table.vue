@@ -21,16 +21,16 @@
 import { getArrayFromFile, getTableDataFromArray } from '@/libs/util'
 export default {
   name: 'update_table_page',
-  data () {
+  data() {
     return {
       columns: [],
       tableData: []
     }
   },
   methods: {
-    beforeUpload (file) {
+    beforeUpload(file) {
       getArrayFromFile(file).then(data => {
-        let {columns, tableData} = getTableDataFromArray(data)
+        let { columns, tableData } = getTableDataFromArray(data)
         this.columns = columns
         this.tableData = tableData
       }).catch(() => {

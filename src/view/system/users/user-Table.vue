@@ -5,7 +5,7 @@
         <Select v-model="searchKey" class="search-col">
           <Option v-for="item in tableColumns" v-if="item.key !== 'handle' && item.key !=='checked'" :value="item.key" :key="`search-col-${item.key}`">{{ item.title }}</Option>
         </Select>
-        <Input v-model="searchValue" clearable placeholder="输入关键字搜索" class="search-input" @on-change="handleClear">
+        <Input v-model="searchValue" clearable placeholder="输入关键字搜索" class="search-input" @on-change="handleClear"/>
         <ButtonGroup class="search-btn" >
           <Button @click="handleSearch">搜索</Button>
           <Button><Icon type="md-add" />新增</Button>

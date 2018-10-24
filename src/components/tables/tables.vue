@@ -185,12 +185,12 @@ export default {
       return item
     },
     surportHandle(item) {
-      const options = item.options || []
-      const insideBtns = []
+      let options = item.options || []
+      let insideBtns = []
       options.forEach(item => {
         if (handleBtns[item]) insideBtns.push(handleBtns[item])
       })
-      const btns = item.button ? [].concat(insideBtns, item.button) : insideBtns
+      let btns = item.button ? [].concat(insideBtns, item.button) : insideBtns
       item.render = (h, params) => {
         params.tableData = this.value
         return h('div', btns.map(item => item(h, params, this)))
@@ -216,7 +216,7 @@ export default {
     },
     handleTableData() {
       this.insideTableData = this.value.map((item, index) => {
-        const res = item
+        let res = item
         res.initRowIndex = index
         return res
       })

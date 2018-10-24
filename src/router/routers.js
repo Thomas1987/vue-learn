@@ -64,15 +64,6 @@ export default [
         component: () => import('@/view/components/count-to/count-to.vue')
       },
       {
-        path: 'user_table',
-        name: 'user_table',
-        meta: {
-          icon: 'md-grid',
-          title: '用户管理'
-        },
-        component: () => import('@/view/system/users/user-Table.vue')
-      },
-      {
         path: 'drag_list_page',
         name: 'drag_list_page',
         meta: {
@@ -80,6 +71,15 @@ export default [
           title: '拖拽列表'
         },
         component: () => import('@/view/components/drag-list/drag-list.vue')
+      },
+      {
+        path: 'user_table',
+        name: 'user_table',
+        meta: {
+          icon: 'md-grid',
+          title: '用户管理'
+        },
+        component: () => import('@/view/system/users/user-Table.vue')
       },
       {
         path: 'tables_page',

@@ -27,7 +27,7 @@ export default {
   components: {
     PasteEditor
   },
-  data () {
+  data() {
     return {
       pasteDataArr: [],
       columns: [],
@@ -37,14 +37,14 @@ export default {
     }
   },
   methods: {
-    handleSuccess () {
+    handleSuccess() {
       this.validated = true
     },
-    handleError (index) {
+    handleError(index) {
       this.validated = false
       this.errorIndex = index
     },
-    handleShow () {
+    handleShow() {
       if (!this.validated) {
         this.$Notice.error({
           title: '您的内容不规范',

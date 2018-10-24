@@ -1,20 +1,16 @@
 module.exports = {
   root: true,
-  parserOptions: {
-    parser: 'babel-eslint',
-    sourceType: 'module'
-  },
-  env: {
-    browser: true,
-    node: true,
-    es6: true,
-  },
-  //https://cnpmjs.org/package/eslint-plugin-vue 引入规范
-  //,'plugin:vue/recommended'
-  extends: ['plugin:vue/recommended', 'eslint:recommended'],
-
-  // add your custom rules here
+  'extends': [
+    'plugin:vue/essential',
+    '@vue/standard'
+  ],
   rules: {
+    // allow async-await
+    'generator-star-spacing': 'off',
+    // allow debugger during development
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    'vue/no-parsing-error': [2, { 'x-invalid-end-tag': false }],
+    'no-undef': 'off',
     "vue/max-attributes-per-line": [2, {
       "singleline": 10,
       "multiline": {
@@ -22,6 +18,9 @@ module.exports = {
         "allowFirstLine": false
       }
     }],
+    "standard/object-curly-even-spacing": 0,
+    //所有的props参数必须设置默认值，暂时禁用
+    "vue/require-default-prop":0,
     //强制vue组件名称采用PascalCase命名
     // "vue/name-property-casing": ["error", "PascalCase"],
     "vue/name-property-casing": 0,
@@ -309,5 +308,8 @@ module.exports = {
     }],
     //强制数组方括号中使用一致的空格
     'array-bracket-spacing': [2, 'never']
+  },
+  parserOptions: {
+    parser: 'babel-eslint'
   }
 }

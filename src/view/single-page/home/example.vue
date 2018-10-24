@@ -1,5 +1,5 @@
 <template>
-  <div ref="dom"/>
+    <div ref="dom"></div>
 </template>
 
 <script>
@@ -10,6 +10,11 @@ export default {
   data() {
     return {
       dom: null
+    }
+  },
+  methods: {
+    resize() {
+      this.dom.resize()
     }
   },
   mounted() {
@@ -104,11 +109,6 @@ export default {
   },
   beforeDestroy() {
     off(window, 'resize', this.resize)
-  },
-  methods: {
-    resize() {
-      this.dom.resize()
-    }
   }
 }
 </script>

@@ -54,12 +54,12 @@ export default {
     value: Object,
     list: {
       type: Array,
-      default () {
+      default() {
         return []
       }
     }
   },
-  data () {
+  data() {
     return {
       tagBodyLeft: 0,
       rightOffset: 40,
@@ -74,13 +74,13 @@ export default {
     }
   },
   computed: {
-    currentRouteObj () {
+    currentRouteObj() {
       const { name, params, query } = this.value
       return { name, params, query }
     }
   },
   methods: {
-    handlescroll (e) {
+    handlescroll(e) {
       var type = e.type
       let delta = 0
       if (type === 'DOMMouseScroll' || type === 'mousewheel') {
@@ -88,7 +88,7 @@ export default {
       }
       this.handleScroll(delta)
     },
-    handleScroll (offset) {
+    handleScroll(offset) {
       const outerWidth = this.$refs.scrollOuter.offsetWidth
       const bodyWidth = this.$refs.scrollBody.offsetWidth
       if (offset > 0) {
@@ -105,7 +105,7 @@ export default {
         }
       }
     },
-    handleTagsOption (type) {
+    handleTagsOption(type) {
       if (type.includes('all')) {
         // 关闭所有，除了home
         let res = this.list.filter(item => item.name === this.$config.homeName)
@@ -119,7 +119,7 @@ export default {
         }, 100)
       }
     },
-    handleClose (current) {
+    handleClose(current) {
       if (current.meta && current.meta.beforeCloseName && current.meta.beforeCloseName in beforeClose) {
         new Promise(beforeClose[current.meta.beforeCloseName]).then(close => {
           if (close) {
@@ -130,20 +130,20 @@ export default {
         this.close(current)
       }
     },
-    close (route) {
+    close(route) {
       let res = this.list.filter(item => !routeEqual(route, item))
       this.$emit('on-close', res, undefined, route)
     },
-    handleClick (item) {
+    handleClick(item) {
       this.$emit('input', item)
     },
-    showTitleInside (item) {
+    showTitleInside(item) {
       return showTitle(item, this)
     },
-    isCurrentTag (item) {
+    isCurrentTag(item) {
       return routeEqual(this.currentRouteObj, item)
     },
-    moveToView (tag) {
+    moveToView(tag) {
       const outerWidth = this.$refs.scrollOuter.offsetWidth
       const bodyWidth = this.$refs.scrollBody.offsetWidth
       if (bodyWidth < outerWidth) {
@@ -159,7 +159,7 @@ export default {
         this.tagBodyLeft = -(tag.offsetLeft - (outerWidth - this.outerPadding - tag.offsetWidth))
       }
     },
-    getTagElementByName (name) {
+    getTagElementByName(name) {
       this.$nextTick(() => {
         this.refsTag = this.$refs.tagsPageOpened
         this.refsTag.forEach((item, index) => {
@@ -170,7 +170,7 @@ export default {
         })
       })
     },
-    contextMenu (item, e) {
+    contextMenu(item, e) {
       if (item.name === this.$config.homeName) {
         return
       }
@@ -179,15 +179,15 @@ export default {
       this.contextMenuLeft = e.clientX - offsetLeft + 10
       this.contextMenuTop = e.clientY - 64
     },
-    closeMenu () {
+    closeMenu() {
       this.visible = false
     }
   },
   watch: {
-    '$route' (to) {
+    '$route'(to) {
       this.getTagElementByName(to.name)
     },
-    visible (value) {
+    visible(value) {
       if (value) {
         document.body.addEventListener('click', this.closeMenu)
       } else {
@@ -195,7 +195,7 @@ export default {
       }
     }
   },
-  mounted () {
+  mounted() {
     setTimeout(() => {
       this.getTagElementByName(this.$route.name)
     }, 200)

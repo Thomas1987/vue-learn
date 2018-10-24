@@ -1,7 +1,7 @@
 <template>
   <div>
     <Card>
-      <tables ref="tables" v-model="tableData" :columns="columns" editable searchable search-place="top" @on-delete="handleDelete"/>
+      <tables ref="tables" editable searchable search-place="top" v-model="tableData" :columns="columns" @on-delete="handleDelete"/>
       <Button style="margin: 10px 0;" type="primary" @click="exportExcel">导出为Csv文件</Button>
     </Card>
   </div>
@@ -48,11 +48,6 @@ export default {
       tableData: []
     }
   },
-  mounted() {
-    getTableData().then(res => {
-      this.tableData = res.data
-    })
-  },
   methods: {
     handleDelete(params) {
       console.log(params)
@@ -62,6 +57,11 @@ export default {
         filename: `table-${(new Date()).valueOf()}.csv`
       })
     }
+  },
+  mounted() {
+    getTableData().then(res => {
+      this.tableData = res.data
+    })
   }
 }
 </script>

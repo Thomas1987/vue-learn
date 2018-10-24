@@ -32,6 +32,5 @@ export default {
   buttonText: '顯示模態框',
   'i18n-tip': '注：僅此頁做了多語言，其他頁面沒有在多語言包中添加語言內容',
   error_store_page: '錯誤收集',
-  error_logger_page: '錯誤日誌',
-  user_table: '用户管理'
+  error_logger_page: '錯誤日誌'
 }

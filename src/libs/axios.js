@@ -14,7 +14,6 @@ const addErrorLog = errorInfo => {
 
 class HttpRequest {
   constructor(baseUrl) {
-    debugger
     this.baseUrl = baseUrl
     this.queue = {}
   }

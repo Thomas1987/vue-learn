@@ -42,7 +42,7 @@ export default {
       'addTag',
       'closeTag'
     ]),
-    createTagParams () {
+    createTagParams() {
       const id = parseInt(Math.random() * 100000)
       const route = {
         name: 'params',
@@ -55,7 +55,7 @@ export default {
       }
       this.$router.push(route)
     },
-    createTagQuery () {
+    createTagQuery() {
       const id = parseInt(Math.random() * 100000)
       const route = {
         name: 'query',
@@ -68,7 +68,7 @@ export default {
       }
       this.$router.push(route)
     },
-    handleCloseTag () {
+    handleCloseTag() {
       this.closeTag({
         name: 'tools_methods_page'
       })

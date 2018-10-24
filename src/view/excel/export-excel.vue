@@ -17,7 +17,7 @@
 import excel from '@/libs/excel'
 export default {
   name: 'export-excel',
-  data () {
+  data() {
     return {
       exportLoading: false,
       tableTitle: [
@@ -54,7 +54,7 @@ export default {
     }
   },
   methods: {
-    exportExcel () {
+    exportExcel() {
       if (this.tableData.length) {
         this.exportLoading = true
         const params = {
@@ -71,10 +71,10 @@ export default {
       }
     }
   },
-  created () {
+  created() {
 
   },
-  mounted () {
+  mounted() {
 
   }
 }
