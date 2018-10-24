@@ -12,16 +12,16 @@ export default {
   components: {
     Editor
   },
-  data () {
+  data() {
     return {
       content: '12312323'
     }
   },
   methods: {
-    handleChange (html, text) {
+    handleChange(html, text) {
       console.log(html, text)
     },
-    changeContent () {
+    changeContent() {
       this.$refs.editor.setHtml('<p>powered by wangeditor</p>')
     }
   }

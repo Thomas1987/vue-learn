@@ -6,7 +6,13 @@
             <Option v-for="item in tableColumns" v-if="item.key !== 'handle' && item.key !=='checked'" :value="item.key" :key="`search-col-${item.key}`">{{ item.title }}</Option>
           </Select>
           <Input @on-change="handleClear" clearable placeholder="输入关键字搜索" class="search-input" v-model="searchValue"/>
-          <Button @click="handleSearch" class="search-btn" type="primary"><Icon type="search"/>&nbsp;&nbsp;搜索</Button>
+          <ButtonGroup class="search-btn" >
+            <Button @click="handleSearch">搜索</Button>
+            <Button><Icon type="md-add" />新增</Button>
+            <Button>编辑</Button>
+            <Button>导出excel</Button>
+            <Button>删除</Button>
+          </ButtonGroup>
         </div>
         <Table :data="tableData" :columns="tableColumns" stripe></Table>
         <div style="margin: 10px;overflow: hidden">
@@ -24,7 +30,7 @@ export default {
   // 数据
   data() {
     return {
-      tableData: this.mockTableData1(),
+      tableData: [],
       tableColumns: [
         {
           key: 'checked',
@@ -182,7 +188,7 @@ export default {
   // 此钩子函数中一般会做一些ajax请求获取数据进行数据初始化
   // mounted在整个实例中只执行一次
   mounted() {
-
+    this.tableData = this.mockTableData1()
   }
 }
 </script>
