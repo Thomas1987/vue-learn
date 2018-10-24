@@ -5,14 +5,11 @@
         <Select v-model="searchKey" class="search-col">
           <Option v-for="item in tableColumns" v-if="item.key !== 'handle' && item.key !=='checked'" :value="item.key" :key="`search-col-${item.key}`">{{ item.title }}</Option>
         </Select>
-        <Input v-model="searchValue" clearable placeholder="输入关键字搜索" class="search-input" @on-change="handleClear"/>
-        <ButtonGroup class="search-btn" >
-          <Button @click="handleSearch">搜索</Button>
-          <Button><Icon type="md-add" />新增</Button>
-          <Button>编辑</Button>
-          <Button>导出excel</Button>
-          <Button>删除</Button>
-        </ButtonGroup>
+        <Input v-model="searchValue"  clearable placeholder="输入关键字搜索" class="search-input" @on-change="handleClear"/>
+        <Button  @click="handleSearch" class="search-btn">查询</Button>
+        <Button  @click="handleSearch" class="search-btn">添加</Button>
+        <Button  @click="handleSearch" class="search-btn">编辑</Button>
+        <Button  @click="handleSearch" class="search-btn">导出</Button>
       </div>
       <Table :data="tableData" :columns="tableColumns" stripe/>
       <div style="margin: 10px;overflow: hidden">

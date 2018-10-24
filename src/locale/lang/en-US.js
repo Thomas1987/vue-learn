@@ -2,6 +2,7 @@ export default {
   home: 'Home',
   components: 'Components',
   count_to_page: 'Count-to',
+  user_table: '用户列表',
   tables_page: 'Table',
   split_pane_page: 'Split-pane',
   markdown_page: 'Markdown-editor',
