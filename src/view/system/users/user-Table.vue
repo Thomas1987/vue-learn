@@ -18,6 +18,9 @@
         </div>
       </div>
     </Card>
+    <Modal v-model="addModal" :title="dialogStatus">
+
+    </Modal>
   </div>
 </template>
 <script>
@@ -177,7 +180,7 @@ export default {
       // The simulated data is changed directly here, and the actual usage scenario should fetch the data from the server
       this.tableData = this.mockTableData1()
     },
-    // 情况后触发事件
+    // 清空后触发事件
     handleClear(e) {
       if (e.target.value === '') { this.tableData = this.tableData }
     },

@@ -4,26 +4,6 @@
     </a>
 </p>
 
-# iView Admin
-
-[![](https://img.shields.io/github/release/iview/iview-admin.svg)](https://github.com/iview/iview-admin/releases)
-[![](https://img.shields.io/travis/iview/iview-admin.svg?style=flat-square)](https://travis-ci.org/iview/iview-admin)
-[![vue](https://img.shields.io/badge/vue-2.5.10-brightgreen.svg?style=flat-square)](https://github.com/vuejs/vue)
-[![iview ui](https://img.shields.io/badge/iview-3.0.0-brightgreen.svg?style=flat-square)](https://github.com/iview/iview)
-[![npm](https://img.shields.io/npm/l/express.svg)]()
-
-[更新日志](https://github.com/iview/iview-admin/releases)
-
-[使用文档](https://lison16.github.io/iview-admin-doc/#/)
-
-[在线访问](https://admin.iviewui.com/)
-
-[简化版模板](https://github.com/iview/iview-admin/tree/template)
-
-[教学视频(26课时)](https://segmentfault.com/ls/1650000016221751?utm_source=banner)
-
-`注：在线版本会在开发版本新小版本发布后更新到相应版本，所以如果想体验最新版本iview-admin，请clone完整项目代码到本地运行。`
-
 ## Install
 ```bush
 // install dependencies
@@ -177,11 +157,3 @@ npm run build
 - 消息中心
 ![image](https://github.com/iview/iview-admin/raw/dev/github-gif/message.gif)
 
-### 💖💖 If you find this project helpful, maybe you can buy me a coffee. 💖💖
-![image](https://github.com/iview/iview-admin/raw/dev/github-gif/code.png)
-
-
-## License
-[MIT](http://opensource.org/licenses/MIT)
-
-Copyright (c) 2016-present, iView
