@@ -175,7 +175,7 @@ export default {
       rule: {
         name: [
           { required: true, message: '必填项', trigger: 'blur' },
-          { type: 'email', message: 'Incorrect email format', trigger: 'blur' }
+          { type: 'email', message: '必须输入正确的email格式', trigger: 'blur' }
         ]
       },
       loading: true
