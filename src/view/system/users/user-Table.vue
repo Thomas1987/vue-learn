@@ -7,7 +7,7 @@
         </Select>
         <Input v-model="searchValue"  clearable placeholder="输入关键字搜索" class="search-input" @on-change="handleClear"/>
         <Button  @click="handleSearch" class="search-btn">查询</Button>
-        <Button  @click="handleSearch" class="search-btn">添加</Button>
+        <Button  @click="addModal=true" class="search-btn">添加</Button>
         <Button  @click="handleSearch" class="search-btn">编辑</Button>
         <Button  @click="handleSearch" class="search-btn">导出</Button>
       </div>
@@ -18,8 +18,13 @@
         </div>
       </div>
     </Card>
-    <Modal v-model="addModal" :title="dialogStatus">
-
+    <!--弹出层-->
+    <Modal v-model="addModal" :title="dialogStatus" @on-ok="ok" :loading="loading">
+      <Form ref="form" :model="form" :rules="rule">
+        <Form-item prop="name">
+          <i-Input v-model="form.name"></i-Input>
+        </Form-item>
+      </Form>
     </Modal>
   </div>
 </template>
@@ -127,7 +132,19 @@ export default {
         }
       ],
       searchKey: '',
-      searchValue: ''
+      searchValue: '',
+      addModal: false,
+      dialogStatus: 'add',
+      form: {
+        name: '',
+        sex: '1'
+      },
+      rule: {
+        name: [
+          { required: true, message: '必填项', trigger: 'blur' }
+        ]
+      },
+      loading: true
     }
   },
   // 编译好的HTML 挂载到页面完成后执行的事件钩子，
@@ -187,6 +204,25 @@ export default {
     // 搜索按钮绑定事件
     handleSearch() {
       this.tableData = this.tableData.filter(item => item[this.searchKey].indexOf(this.searchValue) > -1)
+    },
+    changeLoading() {
+      this.loading = false
+      this.$nextTick(() => {
+        this.loading = true
+      })
+    },
+    ok() {
+      this.$refs['form'].validate(valid => {
+        if (!valid) {
+          return this.changeLoading()
+        }
+        setTimeout(() => {
+          this.changeLoading()
+          this.addModal = false
+          this.$Message.success('提交成功')
+          this.$refs['form'].resetFields()
+        }, 1000)
+      })
     }
   }
 }
