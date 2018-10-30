@@ -19,11 +19,44 @@
       </div>
     </Card>
     <!--弹出层-->
-    <Modal v-model="addModal" :title="dialogStatus" @on-ok="ok" :loading="loading">
-      <Form ref="form" :model="form" :rules="rule">
-        <Form-item prop="name">
-          <i-Input v-model="form.name"></i-Input>
-        </Form-item>
+    <Modal v-model="addModal" :title="dialogStatus" @on-ok="ok" :loading="loading" class-name="vertical-center-modal" :mask-closable="true">
+      <Form ref="form" :model="form" :rules="rule" :label-width="80">
+        <Row>
+          <Col span="12">
+            <Form-item label="姓名" prop="name" >
+              <Input v-model="form.name"></Input>
+            </Form-item>
+          </Col>
+          <Col span="12">
+            <Form-item label="性别">
+              <Input v-model="form.sex"></Input>
+            </Form-item>
+          </Col>
+        </Row>
+          <Row>
+          <Col span="12">
+            <Form-item label="姓名" prop="name" >
+              <Input v-model="form.name"></Input>
+            </Form-item>
+          </Col>
+          <Col span="12">
+            <Form-item label="性别">
+              <Input v-model="form.sex"></Input>
+            </Form-item>
+          </Col>
+        </Row>
+          <Row>
+          <Col span="12">
+            <Form-item label="姓名" prop="name" >
+              <Input v-model="form.name"></Input>
+            </Form-item>
+          </Col>
+          <Col span="12">
+            <Form-item label="性别">
+              <Input v-model="form.sex"></Input>
+            </Form-item>
+          </Col>
+        </Row>
       </Form>
     </Modal>
   </div>
@@ -141,7 +174,8 @@ export default {
       },
       rule: {
         name: [
-          { required: true, message: '必填项', trigger: 'blur' }
+          { required: true, message: '必填项', trigger: 'blur' },
+          { type: 'email', message: 'Incorrect email format', trigger: 'blur' }
         ]
       },
       loading: true
