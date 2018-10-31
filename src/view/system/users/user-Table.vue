@@ -1,6 +1,7 @@
 <template>
   <div>
     <Card>
+      <!-- 查询条件及操作按钮-->
       <div class="search-con search-con-top">
         <Select v-model="searchKey" class="search-col">
           <Option v-for="item in tableColumns" v-if="item.key !== 'handle' && item.key !=='checked'" :value="item.key" :key="`search-col-${item.key}`">{{ item.title }}</Option>
@@ -19,41 +20,41 @@
       </div>
     </Card>
     <!--弹出层-->
-    <Modal v-model="addModal" :title="dialogStatus" @on-ok="ok" :loading="loading" class-name="vertical-center-modal" :mask-closable="true">
-      <Form ref="form" :model="form" :rules="rule" :label-width="80">
+    <Modal v-model="addModal" :title="dialogStatus" @on-ok="ok" :loading="loading" class-name="vertical-center-modal" :mask-closable="false">
+      <Form ref="form" :model="form" :rules="ruleValidate" :label-width="80">
         <Row>
           <Col span="12">
-            <Form-item label="姓名" prop="name" >
-              <Input v-model="form.name"></Input>
+            <Form-item label="账户" prop="Account" >
+              <Input v-model="temp.Account"></Input>
             </Form-item>
           </Col>
           <Col span="12">
-            <Form-item label="性别">
-              <Input v-model="form.sex"></Input>
-            </Form-item>
-          </Col>
-        </Row>
-          <Row>
-          <Col span="12">
-            <Form-item label="姓名" prop="name" >
-              <Input v-model="form.name"></Input>
-            </Form-item>
-          </Col>
-          <Col span="12">
-            <Form-item label="性别">
-              <Input v-model="form.sex"></Input>
+            <Form-item label="姓名" prop="RealName">
+              <Input v-model="temp.RealName"></Input>
             </Form-item>
           </Col>
         </Row>
           <Row>
           <Col span="12">
-            <Form-item label="姓名" prop="name" >
-              <Input v-model="form.name"></Input>
+            <Form-item label="出生日期" >
+               <DatePicker type="date" placeholder="Select date" v-model="temp.birthdate"></DatePicker>
             </Form-item>
           </Col>
           <Col span="12">
             <Form-item label="性别">
-              <Input v-model="form.sex"></Input>
+              <Input v-model="temp.sex"></Input>
+            </Form-item>
+          </Col>
+        </Row>
+          <Row>
+          <Col span="12">
+            <Form-item label="姓名">
+              <Input v-model="temp.birthdate"></Input>
+            </Form-item>
+          </Col>
+          <Col span="12">
+            <Form-item label="性别">
+              <Input v-model="temp.sex"></Input>
             </Form-item>
           </Col>
         </Row>
@@ -167,12 +168,24 @@ export default {
       searchKey: '',
       searchValue: '',
       addModal: false,
-      dialogStatus: 'add',
-      form: {
-        name: '',
-        sex: '1'
+      dialogStatus: '',
+      textMap: {
+        update: '编辑',
+        create: '新增'
       },
-      rule: {
+      // 定义表单模板属性
+      temp: {
+        Account: '',
+        RealName: '',
+        Birthday: new Date(),
+        Gender: '',
+        MobilePhone: '',
+        Email: '',
+        WeChat: '',
+        OrganizeId: '',
+        DepartmentId: ''
+      },
+      ruleValidate: {
         name: [
           { required: true, message: '必填项', trigger: 'blur' },
           { type: 'email', message: '必须输入正确的email格式', trigger: 'blur' }
