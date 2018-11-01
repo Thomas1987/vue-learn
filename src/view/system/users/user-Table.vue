@@ -9,7 +9,6 @@
         <Input v-model="searchValue"  clearable placeholder="输入关键字搜索" class="search-input" @on-change="handleClear"/>
         <Button  @click="handleSearch" class="search-btn">查询</Button>
         <Button  @click="handleCreate" class="search-btn">添加</Button>
-        <Button  @click="handleUpdate" class="search-btn">编辑</Button>
         <Button  @click="handleSearch" class="search-btn">导出</Button>
       </div>
       <Table :data="tableData" :columns="tableColumns" stripe/>
@@ -20,7 +19,7 @@
       </div>
     </Card>
     <!--弹出层-->
-    <Modal v-model="addModal" :title="textMap[dialogStatus]" @on-ok="dialogStatus==='create'?createData():updateData()" @on-cancel="cancel" :loading="loading" class-name="vertical-center-modal" :mask-closable="false">
+    <Modal v-model="dialogFormVisible" :title="textMap[dialogStatus]" @on-ok="dialogStatus==='create'?createData():updateData()"  :loading="loading" class-name="vertical-center-modal" :mask-closable="false">
       <Form ref="form" :model="temp" :rules="ruleValidate" :label-width="80">
         <Row>
           <Col span="12">
@@ -183,11 +182,46 @@ export default {
           render: (h, params) => {
             return h('div', this.formatDate(this.tableData[params.index].update))
           }
+        },
+        {
+          title: '操作',
+          key: 'action',
+          width: 150,
+          align: 'center',
+          render: (h, params, vm) => {
+            return h('div', [
+              h('Button', {
+                props: {
+                  type: 'primary',
+                  size: 'small'
+                },
+                style: {
+                  marginRight: '5px'
+                },
+                on: {
+                  click: () => {
+                    this.handleUpdate(params.row)
+                  }
+                }
+              }, '编辑'),
+              h('Button', {
+                props: {
+                  type: 'error',
+                  size: 'small'
+                },
+                on: {
+                  click: () => {
+                    this.handleDelete(params)
+                  }
+                }
+              }, '删除')
+            ])
+          }
         }
       ],
       searchKey: '',
       searchValue: '',
-      addModal: false,
+      dialogFormVisible: false,
       dialogStatus: '',
       textMap: {
         update: '编辑',
@@ -276,17 +310,21 @@ export default {
     // 新增窗口
     handleCreate() {
       this.dialogStatus = 'create'
-      this.addModal = true
+      this.dialogFormVisible = true
       // 重置表单
       this.$refs['form'].resetFields()
     },
     // 编辑窗口
     handleUpdate(row) {
+      console.log(row.name)
       this.dialogStatus = 'update'
       // 打开编辑窗口
-      this.addModal = true
+      this.dialogFormVisible = true
       // 重置表单
       this.$refs['form'].resetFields()
+    },
+    handleDelete(params) {
+      console.log(params)
     },
     // 重置loading状态 防止重复提交
     changeLoading() {
@@ -304,7 +342,7 @@ export default {
         }
         setTimeout(() => {
           this.changeLoading()
-          this.addModal = false
+          this.dialogFormVisible = false
           this.$Message.success('提交成功')
           this.$refs['form'].resetFields()
         }, 1000)
@@ -319,13 +357,10 @@ export default {
         }
         setTimeout(() => {
           this.changeLoading()
-          this.addModal = false
+          this.dialogFormVisible = false
           this.$Message.success('提交成功')
         }, 1000)
       })
-    },
-    cancel() {
-      this.addModal = false
     }
   }
 }
