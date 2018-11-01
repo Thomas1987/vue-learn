@@ -8,8 +8,8 @@
         </Select>
         <Input v-model="searchValue"  clearable placeholder="输入关键字搜索" class="search-input" @on-change="handleClear"/>
         <Button  @click="handleSearch" class="search-btn">查询</Button>
-        <Button  @click="addModal=true" class="search-btn">添加</Button>
-        <Button  @click="handleSearch" class="search-btn">编辑</Button>
+        <Button  @click="handleCreate" class="search-btn">添加</Button>
+        <Button  @click="handleUpdate" class="search-btn">编辑</Button>
         <Button  @click="handleSearch" class="search-btn">导出</Button>
       </div>
       <Table :data="tableData" :columns="tableColumns" stripe/>
@@ -20,8 +20,8 @@
       </div>
     </Card>
     <!--弹出层-->
-    <Modal v-model="addModal" :title="dialogStatus" @on-ok="ok" :loading="loading" class-name="vertical-center-modal" :mask-closable="false">
-      <Form ref="form" :model="form" :rules="ruleValidate" :label-width="80">
+    <Modal v-model="addModal" :title="textMap[dialogStatus]" @on-ok="dialogStatus==='create'?createData():updateData()" @on-cancel="cancel" :loading="loading" class-name="vertical-center-modal" :mask-closable="false">
+      <Form ref="form" :model="temp" :rules="ruleValidate" :label-width="80">
         <Row>
           <Col span="12">
             <Form-item label="账户" prop="Account" >
@@ -42,19 +42,39 @@
           </Col>
           <Col span="12">
             <Form-item label="性别">
-              <Input v-model="temp.sex"></Input>
+              <Input v-model="temp.Gender"></Input>
             </Form-item>
           </Col>
         </Row>
-          <Row>
+        <Row>
           <Col span="12">
-            <Form-item label="姓名">
-              <Input v-model="temp.birthdate"></Input>
+            <Form-item label="联系电话">
+              <Input v-model="temp.MobilePhone"></Input>
             </Form-item>
           </Col>
           <Col span="12">
-            <Form-item label="性别">
-              <Input v-model="temp.sex"></Input>
+            <Form-item label="Email">
+              <Input v-model="temp.Email"></Input>
+            </Form-item>
+          </Col>
+        </Row>
+        <Row>
+          <Col span="12">
+            <Form-item label="部门">
+              <Select v-model="temp.DepartmentId" clearable placeholder="请选择">
+                <Option value="1">研发部</Option>
+                <Option value="2">销售部</Option>
+                <Option value="3">开发部</Option>
+              </Select>
+            </Form-item>
+          </Col>
+          <Col span="12">
+            <Form-item label="岗位">
+              <Select v-model="temp.OrganizeId" clearable placeholder="请选择">
+                <Option value="1">总经理</Option>
+                <Option value="2">项目经理</Option>
+                <Option value="3">研发人员</Option>
+              </Select>
             </Form-item>
           </Col>
         </Row>
@@ -186,12 +206,13 @@ export default {
         DepartmentId: ''
       },
       ruleValidate: {
-        name: [
+        RealName: [
           { required: true, message: '必填项', trigger: 'blur' },
           { type: 'email', message: '必须输入正确的email格式', trigger: 'blur' }
         ]
       },
-      loading: true
+      loading: true,
+      model1: ''
     }
   },
   // 编译好的HTML 挂载到页面完成后执行的事件钩子，
@@ -252,13 +273,31 @@ export default {
     handleSearch() {
       this.tableData = this.tableData.filter(item => item[this.searchKey].indexOf(this.searchValue) > -1)
     },
+    // 新增窗口
+    handleCreate() {
+      this.dialogStatus = 'create'
+      this.addModal = true
+      // 重置表单
+      this.$refs['form'].resetFields()
+    },
+    // 编辑窗口
+    handleUpdate(row) {
+      this.dialogStatus = 'update'
+      // 打开编辑窗口
+      this.addModal = true
+      // 重置表单
+      this.$refs['form'].resetFields()
+    },
+    // 重置loading状态 防止重复提交
     changeLoading() {
       this.loading = false
       this.$nextTick(() => {
         this.loading = true
       })
     },
-    ok() {
+    // 新增方法
+    createData() {
+      console.log(this.temp.OrganizeId)
       this.$refs['form'].validate(valid => {
         if (!valid) {
           return this.changeLoading()
@@ -270,6 +309,23 @@ export default {
           this.$refs['form'].resetFields()
         }, 1000)
       })
+    },
+    // 编辑方法
+    updateData() {
+      console.log(this.temp.OrganizeId)
+      this.$refs['form'].validate(valid => {
+        if (!valid) {
+          return this.changeLoading()
+        }
+        setTimeout(() => {
+          this.changeLoading()
+          this.addModal = false
+          this.$Message.success('提交成功')
+        }, 1000)
+      })
+    },
+    cancel() {
+      this.addModal = false
     }
   }
 }
