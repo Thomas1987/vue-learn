@@ -312,7 +312,9 @@ export default {
       this.dialogStatus = 'create'
       this.dialogFormVisible = true
       // 重置表单
-      this.$refs['form'].resetFields()
+      this.$nextTick(() => {
+        this.$refs['form'].resetFields()
+      })
     },
     // 编辑窗口
     handleUpdate(row) {
@@ -321,7 +323,9 @@ export default {
       // 打开编辑窗口
       this.dialogFormVisible = true
       // 重置表单
-      this.$refs['form'].resetFields()
+      this.$nextTick(() => {
+        this.$refs['form'].resetFields()
+      })
     },
     handleDelete(params) {
       console.log(params)
