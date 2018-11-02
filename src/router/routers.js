@@ -224,7 +224,7 @@ export default [
         name: 'i18n_page',
         meta: {
           icon: 'md-planet',
-          title: 'i18n - {{ i18n_page }}'
+          title: '多语言'
         },
         component: () => import('@/view/i18n/i18n-page.vue')
       }
