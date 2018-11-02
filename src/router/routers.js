@@ -352,7 +352,7 @@ export default [
         name: 'params',
         meta: {
           icon: 'md-flower',
-          title: route => `{{ params }}-${route.params.id}`,
+          title: route => `动态路由-${route.params.id}`,
           notCache: true,
           beforeCloseName: 'before_close_normal'
         },
@@ -363,7 +363,7 @@ export default [
         name: 'query',
         meta: {
           icon: 'md-flower',
-          title: route => `{{ query }}-${route.query.id}`,
+          title: route => `带参路由-${route.query.id}`,
           notCache: true
         },
         component: () => import('@/view/argu-page/query.vue')
